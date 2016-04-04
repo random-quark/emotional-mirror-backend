@@ -1,0 +1,74 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Twitter server search form{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>Twitter server</h2>
+  </div>
+
+  <form method="POST">
+    {{ form.csrf_token }}
+    <div class="row">
+      <div class="col-sm-2">negative score (0 - 1)</div>
+      <div class="col-sm-1">{{ form.neg_rel }}</div>
+      <div class="col-sm-1">{{ form.neg_value }}</div>
+     </div>
+     <div class="row">
+       <div class="col-sm-2">positive score (0 - 1)</div>
+       <div class="col-sm-1">{{ form.pos_rel }}</div>
+       <div class="col-sm-1">{{ form.pos_value }}</div>
+     </div>
+     <div class="row">
+       <div class="col-sm-2">neutral score (0 - 1)</div>
+       <div class="col-sm-1">{{ form.neu_rel }}</div>
+       <div class="col-sm-1">{{ form.neu_value }}</div>
+       </div>
+     <div class="row">
+       <div class="col-sm-2">composite score (-1 - 1)</div>
+       <div class="col-sm-1">{{ form.comp_rel }}</div>
+       <div class="col-sm-1">{{ form.comp_value }}</div>
+     </div>
+     <div class="row">
+       <div class="col-sm-2">maximum results</div>
+       <div class="col-sm-1"></div>
+       <div class="col-sm-1">{{ form.max_results }}</div>
+     </div>
+     <div class="row">
+       <div class="col-sm-2">exclude past (until they run out)</div>
+       <div class="col-sm-1"></div>
+       <div class="col-sm-1">{{ form.exclude_past }}</div>
+     </div>
+     <div class="row">
+       <div class="col-sm-2">randomize results</div>
+       <div class="col-sm-1"></div>
+       <div class="col-sm-1">{{ form.randomize_results }}</div>
+     </div>
+  {{ form.submit() }}
+  </form>
+  <!--{{ wtf.quick_form(form) }}-->
+  {% if http_call %}
+    <hr>
+    <h3>API call:</h3>
+    <h5><a href={{http_call}}>{{http_call}}</a></h5>
+  {% endif %}
+
+  {% if allTweets %}
+    <hr>
+    <h3>{{ allTweets|length }} result(s):</h3>
+    {% for item in allTweets %}
+      <div class="well well-lg">
+      {% for k, v in item.items() %}
+      <b>{{k}}</b>: {{v}} </br>
+      {% endfor %}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+</div>
+
+<link href="/static/bootstrap.css" rel="stylesheet">
+
+{% endblock %}

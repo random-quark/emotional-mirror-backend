@@ -1,0 +1,20 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Twitter server results{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>Twitter server</h2>
+  </div>
+
+  {% for item in allTweets %}
+    <div class="well well-lg">
+    {% for k, v in item.items() %}
+    <b>{{k}}</b>: {{v}} </br>
+    {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+
+<link href="/static/bootstrap.css" rel="stylesheet">
+{% endblock %}

@@ -1,0 +1,19 @@
+body {
+  padding-top: 20px; 
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+#resultsID
+{
+  width: 40%;
+}
+
+img.banner
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
