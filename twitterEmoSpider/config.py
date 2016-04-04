@@ -8,10 +8,10 @@ profile_dir = "../db/profile_images"
 words_to_track = ['sad']
 
 # twitter credentials:
-consumer_key = "Y8wL0a8Fpr4FoofyEddqhZEIa"
-consumer_secret = "BvWilCUhMy4pZt20KotKYRNHiCB4c411JRD9KnTPHFzjn8BiTK"
-access_token = "245278880-s5WGEzgRcxyv22dztCWMNaJYRhR51umMbFnKjB8F"
-access_token_secret="ly6kAhL3fqVu1gAcYnVfTkJYIn1E4ackCIMMNu8ub8JP6"
+consumer_key = ""
+consumer_secret = ""
+access_token = ""
+access_token_secret=""
 
 # fields to exclude:
 tweetfields_exluded = ["source", "in_reply_to_status_id", "in_reply_to_status_id_str", "in_reply_to_user_id", "in_reply_to_user_id_str", "in_reply_to_screen_name", "extended_entities" ]
