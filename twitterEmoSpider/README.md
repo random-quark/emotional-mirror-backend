@@ -3,6 +3,7 @@
 * Go to directory of the repo downloaded and open a terminal there.
 * For MAC only: You will need [homebrew](http://brew.sh/). Run the command in the terminal.
 * __IMPORTANT:__ make sure the shared variables inside the _config.py_ files of twitterEmoServer and twitterEmoSpider are the same (they are by default).
+
 ### step 1: setup mongodb + pymongo
 __For OSx:__ (more info in [this link](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)):
 ```
