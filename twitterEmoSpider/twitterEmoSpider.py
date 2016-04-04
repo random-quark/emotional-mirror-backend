@@ -13,31 +13,34 @@ client = MongoClient(config.mongodb_address)
 db = client[config.db_name]
 tweets = db[config.table_name]
 
+consumer_key = os.environ['CONSUMER_KEY']
+consumer_secret = os.environ['CONSUMER_SECRET']
+access_token = os.environ['ACCESS_TOKEN']
+access_token_secret = os.environ['ACCESS_TOKEN_SECRET']
 
 class StdOutListener(StreamListener):
 	""" A listener handles tweets that are received from the stream.
 	This is a basic listener that just prints received tweets to stdout.
 	"""
 	def on_data(self, data):
-		with open("sampleData.txt", "a") as myfile:
-			jData = json.loads(data)
-			filteredjData = self.filterStream(jData)
-			# if tweet is acceptable (see filterStream for details)
-			if filteredjData:
-				sentimentScore = self.getSentiment(filteredjData['text'])
-				if sentimentScore:
-					imagePath = filteredjData["user"]["profile_image_url"]
-					imageName = imagePath[imagePath.rfind("/")+1:]
-					urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
-					filteredjData["user"]["local_image_loc"] = "/"+config.profile_dir+"/"+imageName
-					filteredjData["sentiment"] = sentimentScore
-					print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
-					post_id = tweets.insert_one(filteredjData).inserted_id
-					#print post_id
-					#json.dump( filteredjData['retweeted'], myfile )
-					#myfile.write('\n\n\n')
-			else:
-				pass
+		jData = json.loads(data)
+		filteredjData = self.filterStream(jData)
+		# if tweet is acceptable (see filterStream for details)
+		if filteredjData:
+			sentimentScore = self.getSentiment(filteredjData['text'])
+			if sentimentScore:
+				imagePath = filteredjData["user"]["profile_image_url"]
+				imageName = imagePath[imagePath.rfind("/")+1:]
+				urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
+				filteredjData["user"]["local_image_loc"] = "/"+config.profile_dir+"/"+imageName
+				filteredjData["sentiment"] = sentimentScore
+				print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
+				post_id = tweets.insert_one(filteredjData).inserted_id
+				#print post_id
+				#json.dump( filteredjData['retweeted'], myfile )
+				#myfile.write('\n\n\n')
+		else:
+			pass
 		return True
 
 	def on_error(self, status):
@@ -50,9 +53,6 @@ class StdOutListener(StreamListener):
 		else: return None
 
 	def filterStream(self, t):
-		print t
-		print
-		print
 		if (t['retweeted'] == False		 						#no retweets
 			and 'RT @' not in t['text'] 					#no retweets
 			and not t['is_quote_status'] 					#no tweets that are quotes
@@ -79,12 +79,11 @@ class StdOutListener(StreamListener):
 
 if __name__ == '__main__':
 	if not os.path.exists(config.profile_dir):
-		print config.profile_dir
 		os.makedirs(config.profile_dir)
 
 	l = StdOutListener()
-	auth = OAuthHandler(config.consumer_key, config.consumer_secret)
-	auth.set_access_token(config.access_token, config.access_token_secret)
+	auth = OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
 
 	stream = Stream(auth, l)
 	stream.filter(track=config.words_to_track)

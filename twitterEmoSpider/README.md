@@ -56,6 +56,13 @@ Every time you want to start filling up the database with data you need to make 
 ```
 mongod --dbpath ./db --nojournal --smallfiles
 ```
+Also, set the environment variables related to the twitter API by inserting the right values below:
+```
+export CONSUMER_KEY="your_data_here"
+export CONSUMER_SECRET="your_data_here"
+export ACCESS_TOKEN="your_data_here"
+export ACCESS_TOKEN_SECRET="your_data_here"
+```
 from where your _db_ directory is located. Then cd inside the _twitterEmoSpider_ directory and execute:
 ```
 virtualenv venv
