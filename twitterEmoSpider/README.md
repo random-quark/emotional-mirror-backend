@@ -73,5 +73,5 @@ __Note:__ At the moment the last command should be ran for a little bit only jus
 
 To drop tables and other db operations see:
 ```
-/twitterEmoServer/sandbox/mongoDB_operations.py
+/utilities/mongoDB_operations.py
 ```
