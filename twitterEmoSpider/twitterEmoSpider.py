@@ -30,12 +30,15 @@ class StdOutListener(StreamListener):
 			sentimentScore = self.getSentiment(filteredjData['text'])
 			if sentimentScore:
 				imagePath = filteredjData["user"]["profile_image_url"]
+				imagePath = imagePath[:-11] + ".jpg"  							# removed _normal from name to retrieve hi-res profile image
 				imageName = imagePath[imagePath.rfind("/")+1:]
 				urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
 				filteredjData["user"]["local_image_loc"] = "/"+config.profile_dir+"/"+imageName
 				filteredjData["sentiment"] = sentimentScore
 				print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
+				print filteredjData["sentiment"]
 				post_id = tweets.insert_one(filteredjData).inserted_id
+
 				#print post_id
 				#json.dump( filteredjData['retweeted'], myfile )
 				#myfile.write('\n\n\n')
@@ -47,29 +50,35 @@ class StdOutListener(StreamListener):
 		print(status)
 
 	def getSentiment(self, text):
-		#if vaderSentiment.sentiment(text)['neg']>0.3: #let only extreme feelings in
-		if True:
+		sentiment = vaderSentiment.sentiment(text)['compound']
+		if abs(sentiment)>0.6: # only let strong feelings in
+		#if True:
 			return vaderSentiment.sentiment(text)
 		else: return None
 
 	def filterStream(self, t):
-		if (t['retweeted'] == False		 						#no retweets
-			and 'RT @' not in t['text'] 					#no retweets
-			and not t['is_quote_status'] 					#no tweets that are quotes
-			and t['in_reply_to_screen_name']==None			#no tweets that are replies
-			and not t['entities']['user_mentions']			#no tweets that contain user mentions
-			and not t['entities']['urls']					#no tweets that contain url links
-			and not t['user']['contributors_enabled']		#no tweets from accounts that have multiple authors (rarely the occasion)
-			and 'media' not in t['entities'].keys()			#no tweets that have media (images, videos etc)
-			and t['lang']=='en'								#no foreign language tweets
-			):
-			cleanTweet = {k: v for k, v in t.items() if k not in config.tweetfields_exluded}
-			user = t['user']
-			cleanUser =  {k: v for k, v in user.items() if k not in config.userfields_exluded}
-			cleanTweet['user'] = cleanUser
-			return cleanTweet
-		else: return None
-
+		try:
+			if (t['retweeted'] == False		 						#no retweets
+				and 'RT @' not in t['text'] 					#no retweets
+				and not t['is_quote_status'] 					#no tweets that are quotes
+				and t['in_reply_to_screen_name']==None			#no tweets that are replies
+				and not t['entities']['user_mentions']			#no tweets that contain user mentions
+				and not t['entities']['urls']					#no tweets that contain url links
+				and not t['user']['contributors_enabled']		#no tweets from accounts that have multiple authors (rarely the occasion)
+				and 'media' not in t['entities'].keys()			#no tweets that have media (images, videos etc)
+				and t['lang']=='en'								#no foreign language tweets
+				):
+				cleanTweet = {k: v for k, v in t.items() if k not in config.tweetfields_exluded}
+				user = t['user']
+				cleanUser =  {k: v for k, v in user.items() if k not in config.userfields_exluded}
+				cleanTweet['user'] = cleanUser
+				return cleanTweet
+			else: return None
+		except KeyError:
+			#print "*********************************************************"
+			#print "* Matched more than can deliver //// {} messages skipped *".format(t['limit']['track'])
+			#print "*********************************************************"
+			return None
 	def flagFields(self, t):
 		for k, v in t.items():
 			if v==0: print k, v
@@ -86,24 +95,6 @@ if __name__ == '__main__':
 	auth.set_access_token(access_token, access_token_secret)
 
 	stream = Stream(auth, l)
+	#stream.sample()
 	stream.filter(track=config.words_to_track)
-
-#import vaderSentiment
-#print vaderSentiment.sentiment("The service here is EXTREMELY good, but the service is horrible.")
-
-
-	# ###### Is this needed? ######
-	# def formatedFields(self, x):
-	# 	if x:
-	# 		ret = copy.deepcopy(x)
-	# 		# Handle dictionaries. Scrub all values
-	# 		if isinstance(x, dict):
-	# 			for k,v in ret.items():
-	# 				ret[k] = scrub(v)
-	# 		# Handle None
-	# 		if x == 0: ret = 0
-	# 		elif x == False: ret = False
-	# 		elif t == "null": ret = None
-	# 		elif t == None: ret = None
-	# 		# Finished scrubbing
-	# 		return ret
+	#stream.filter(track=["delighted", "overjoyed", "ecstatic"])

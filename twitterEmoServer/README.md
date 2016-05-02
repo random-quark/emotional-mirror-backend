@@ -39,7 +39,7 @@ source venv/bin/activate
 ```
 setup modules needed:
 ```
-virtualenv virtualenv
+virtualenv venv
 source venv/bin/activate
 ```
 setup Flask and related modules
@@ -51,13 +51,12 @@ pip install Flask-WTF
 ```
 
 ### run twitterEmoServer:
-Every time you want serving data you need to make sure the database is running by executing:
+__Every time__ you want serving data you need to make sure the database is running by executing:
 ```
 mongod --dbpath ./db --nojournal --smallfiles
 ```
 from where your _db_ directory is located. Then cd inside the _twitterEmoServer_ directory and execute:
 ```
-virtualenv venv
 source venv/bin/activate
 python twitterEmoServer
 ```
