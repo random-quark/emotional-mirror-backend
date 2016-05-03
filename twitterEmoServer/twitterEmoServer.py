@@ -30,7 +30,7 @@ def form():
     randomize_results = False
     query = {}
     if form.validate_on_submit():
-        http_call = "http://localhost:5000/search?"
+        http_call = "/search?"
         if form.neg_rel.data:
             query.update({"sentiment.neg":{form.neg_rel.data:form.neg_value.data}})
             http_call += "&neg_rel="+form.neg_rel.data+"&neg_value="+str(form.neg_value.data)
