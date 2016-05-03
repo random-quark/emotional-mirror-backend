@@ -29,19 +29,20 @@ mongod --dbpath /data/db/ --nojournal --smallfiles
 
 ### step 3: installing and setting up tools
 ```
+sudo apt-get install python-pip python-dev build-essential
+sudo pip install --upgrade pip
 sudo easy_install pip
+```
+then do:
+```
 sudo pip install virtualenv
 ```
 cd into directory _twitterEmoSpider_ and run:
 ```
-virtualenv virtualenv
-source venv/bin/activate
-```
-setup modules needed:
-```
 virtualenv venv
 source venv/bin/activate
 ```
+setup modules needed:
 setup Tweepy ([documentationA](http://www.tweepy.org/), [documentationB](https://github.com/tweepy/tweepy))
 ```
 pip install tweepy
@@ -56,7 +57,7 @@ Every time you want to start filling up the database with data you need to make 
 ```
 mongod --dbpath ./db --nojournal --smallfiles
 ```
-Also, set the environment variables related to the twitter API by inserting the right values below:
+Edit the ~/.bashrc file and copy paste the following text at the end of the file (after entering the values given to you by Twitter for your App):
 ```
 export CONSUMER_KEY="your_data_here"
 export CONSUMER_SECRET="your_data_here"

@@ -58,7 +58,7 @@ mongod --dbpath ./db --nojournal --smallfiles
 from where your _db_ directory is located. Then cd inside the _twitterEmoServer_ directory and execute:
 ```
 source venv/bin/activate
-python twitterEmoServer
+python twitterEmoServer.py
 ```
 Go to [http://localhost:5000/form](http://localhost:5000/form) and fill out the API form to get the link for the front-end.
 
