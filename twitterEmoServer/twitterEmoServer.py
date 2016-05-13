@@ -103,7 +103,7 @@ def select_fields(resultList):
         tempDict = {}
         tempDict["username"] = tweet["user"]["screen_name"]
         tempDict["text"] = tweet["text"]
-        tempDict["profile_image"] = os.path.dirname(os.path.realpath(__file__)) + tweet["user"]["local_image_loc"]
+        tempDict["profile_image"] = os.path.dirname(os.path.realpath(__file__)) + tweet["user"]["image_name"]
         tempDict["location"] = tweet["user"]["location"]
         tempDict["timestamp"] = tweet["created_at"]
         tempDict["sentiment"] = tweet["sentiment"]
