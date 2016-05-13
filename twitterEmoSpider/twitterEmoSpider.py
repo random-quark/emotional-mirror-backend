@@ -35,8 +35,10 @@ class StdOutListener(StreamListener):
 			sentimentScore = self.getSentiment(filteredjData['text'])
 			if sentimentScore:
 				imagePath = filteredjData["user"]["profile_image_url"]
-				imagePath = imagePath[:-11] + ".jpg"  							# removed _normal from name to retrieve hi-res profile image
 				imageName = imagePath[imagePath.rfind("/")+1:]
+				urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
+				imagePath = imagePath[:-11] + ".jpg"  									# removed _normal from name to retrieve hi-res profile image
+				imageName = imageName.replace("_normal.jpg", "_original.jpg")
 				urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
 				#filteredjData["user"]["local_image_loc"] = config.profile_dir+"/"+imageName
 				filteredjData["user"]["image_name"] = imageName
