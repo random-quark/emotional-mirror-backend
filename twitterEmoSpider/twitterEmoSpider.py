@@ -37,7 +37,7 @@ class StdOutListener(StreamListener):
 				filteredjData["sentiment"] = sentimentScore
 				print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
 				print filteredjData["sentiment"]
-				post_id = tweets.insert_one(filteredjData).inserted_id
+#				post_id = tweets.insert_one(filteredjData).inserted_id
 
 				#print post_id
 				#json.dump( filteredjData['retweeted'], myfile )
