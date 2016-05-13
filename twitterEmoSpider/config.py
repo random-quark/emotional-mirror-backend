@@ -8,7 +8,7 @@ profile_dir = "../db/profile_images"
 words_negative = ['angry','depressed','helpless','irritated','lousy','upset','enraged','disappointed','insulting','ashamed','annoyed','embarrassed','upset','guilty','hateful','dissatisfied','unpleasant','miserable','stupefied','detestable','disillusioned','bitter','repugnant','despair','despicable','frustrated','resentful','disgusted','pathetic','infuriated','bad','pessimistic','fuming','indignant','hurt','sad','tearful','terrified','tormented','anxious','anguish','weary','panic','dejected','rejected','desperate','worried','offended','unhappy','frightened','heartbroken','appalled','humiliated']
 words_positive = ['happy','great','playful','lucky','amazed','fortunate','optimistic','pleased','delighted','encouraged','overjoyed','gleeful','satisfied','thankful','content','festive','spirited','ecstatic','thrilled','satisfied','wonderful','serene','glad','cheerful','blessed','merry','elated','jubilant','excited','enthusiastic']
 words_to_track= words_positive + words_negative
-
+track_keywords = True	# True for keywords, false for random sample from the twitter-sphere
 
 # twitter credentials:
 consumer_key = ""
