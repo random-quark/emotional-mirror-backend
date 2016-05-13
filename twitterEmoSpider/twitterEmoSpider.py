@@ -7,6 +7,10 @@ from pymongo import MongoClient
 import urllib
 import os
 import config #from config import * # edit this file with your twitter credentials
+# needed in order to be able to save emojis to file
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 # db-related
 client = MongoClient(config.mongodb_address)
@@ -17,6 +21,7 @@ consumer_key = os.environ['CONSUMER_KEY']
 consumer_secret = os.environ['CONSUMER_SECRET']
 access_token = os.environ['ACCESS_TOKEN']
 access_token_secret = os.environ['ACCESS_TOKEN_SECRET']
+
 
 class StdOutListener(StreamListener):
 	""" A listener handles tweets that are received from the stream.
@@ -37,8 +42,8 @@ class StdOutListener(StreamListener):
 				filteredjData["sentiment"] = sentimentScore
 				print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
 				print filteredjData["sentiment"]
-#				post_id = tweets.insert_one(filteredjData).inserted_id
-
+				print
+				post_id = tweets.insert_one(filteredjData).inserted_id
 				#print post_id
 				#json.dump( filteredjData['retweeted'], myfile )
 				#myfile.write('\n\n\n')
@@ -85,7 +90,6 @@ class StdOutListener(StreamListener):
 			elif v is None: v=None
 			elif v==False: print k, v
 
-
 if __name__ == '__main__':
 	if not os.path.exists(config.profile_dir):
 		os.makedirs(config.profile_dir)
@@ -95,6 +99,9 @@ if __name__ == '__main__':
 	auth.set_access_token(access_token, access_token_secret)
 
 	stream = Stream(auth, l)
-	#stream.sample()
-	stream.filter(track=config.words_to_track)
-	#stream.filter(track=["delighted", "overjoyed", "ecstatic"])
+	if config.track_keywords:
+		print "*** using keywords to track ***"
+		stream.filter(track=config.words_to_track)
+	else:
+		print "*** sampling random tweets ***"
+		stream.sample()
