@@ -38,7 +38,8 @@ class StdOutListener(StreamListener):
 				imagePath = imagePath[:-11] + ".jpg"  							# removed _normal from name to retrieve hi-res profile image
 				imageName = imagePath[imagePath.rfind("/")+1:]
 				urllib.urlretrieve(imagePath, config.profile_dir+"/"+imageName)
-				filteredjData["user"]["local_image_loc"] = "/"+config.profile_dir+"/"+imageName
+				#filteredjData["user"]["local_image_loc"] = config.profile_dir+"/"+imageName
+				filteredjData["user"]["image_name"] = imageName
 				filteredjData["sentiment"] = sentimentScore
 				print filteredjData["user"]["screen_name"] + " ===> " + filteredjData['text']
 				print filteredjData["sentiment"]
