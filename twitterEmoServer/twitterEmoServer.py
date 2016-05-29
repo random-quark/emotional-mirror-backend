@@ -101,6 +101,7 @@ def select_fields(resultList):
     results = []
     for tweet in resultList:
         tempDict = {}
+        tempDict["name"] = tweet["user"]["name"]
         tempDict["username"] = tweet["user"]["screen_name"]
         tempDict["text"] = tweet["text"]
         #tempDict["profile_image"] = os.path.dirname(os.path.realpath(__file__)) + tweet["user"]["image_name"]
