@@ -16,6 +16,8 @@ run qv4l2 and go to 3rd panel to turn off automatic exposure
 * install supervisord
 * setup supervisord config (see example in emotional-mirror-backend/utilities/ folder)
 * add supervisord to startup applications (ensure it's alphabetically after previous command)
+* Also open /etc/crontab and add this line below:
+```*/20 *	* * *	root	supervisorctl restart emotionalMirrorFrontend```
 
 # to rotate the screen 90 degrees
 * add xrandr --output HDMI1 --rotate right to startup applications
