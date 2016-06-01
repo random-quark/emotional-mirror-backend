@@ -12,7 +12,10 @@ git clone https://github.com/random-quark/emotional-mirror-backend.git
 ```
 sudo apt-get install screen
 ```
-
+### stop mongodb from starting on boot:
+```
+edit the /etc/init/mongod file and turn "yes" to "no" in the enable mongod
+```
 ### to be able to control the settings on the PSeye3 camera
 ```
 sudo apt-get install qv4l2
